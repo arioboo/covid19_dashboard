@@ -5,10 +5,12 @@ My own study about covid19 virus at the moment. It may compile other sources/not
 
 #### Branchs:
 
-**main:**
-- notebooks/: contains public notebooks. MAIN.ipynb will be mine.
-- data/: link to `~/Projects/data/GitHub/COVID-19`
+**main:** : Contains the notebooks:
+- params.py
+- classes.py
+- functions.py
+- test.ipynb: Test using all the above scripts. It generates an html output from Bokeh intended to be interactive.
+'next: serve it publicly' 
 
-**kagle:**
-- notebooks/:""
-- data/: pointing to `~/Projects/data/Kaggle/covid19`
+
+
