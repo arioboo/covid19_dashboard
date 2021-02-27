@@ -9,7 +9,6 @@ import requests
 import gc
 
 from PIL import Image
-from IPython.display import display
 
 
 ###---<Lambda Functions:>---###
@@ -29,7 +28,7 @@ def try_guest_shape(array):
 
 def daterange2df(json, **params):
     end_date, start_date, formato = [params.get(i,) for i in ["end_date","start_date","formato"]]
-    
+
     td = end_date - start_date
     dl = [end_date - datetime.timedelta(days=x) for x in range(td.days)]
     dl_parsed = [i.strftime(formato) for i in dl]
@@ -40,7 +39,7 @@ def daterange2df(json, **params):
     for d in dl_parsed:
             df_new = pd.DataFrame(json["dates"][d]["countries"]["Spain"]).set_index("date").iloc[:,7:]
             df = pd.concat([df_new, df])
-      
+
     df.index = df.index.astype("datetime64[ns]")
     df.sort_index(inplace=True)
 
@@ -58,12 +57,12 @@ def make_plots_by_lemma(lemma, df):
     #fig.set_tight_layout(10)
     for i in range(sh[0]):
         for j,field in enumerate(lemma_arr[ i*sh[-1] : (i+1)*sh[-1] ] ):
-            
+
             axs[i,j].xaxis.set_major_formatter(mdates.DateFormatter('%d/%m'))
             plt.setp( axs[i,j].xaxis.get_majorticklabels(), rotation=70 ,)
             axs[i,j].set_title(field)
             axs[i,j].plot(days, df[field])
-            
+
     return fig,axs
 ###---<TLDR Functions:>---###
 
@@ -72,14 +71,14 @@ def api_covid19tracking(**params):
     global response
     global base_url, url
     base_url = "https://api.covid19tracking.narrativa.com"
-    
+
     # params
     formato = params["formato"]
     formato_query = params["formato_query"]
 
     start_date = params["start_date"]
     end_date = params["end_date"]
-    
+
     country = params["country"]
     region = params["region"]
     sub_region = params["sub_region"]
@@ -89,13 +88,13 @@ def api_covid19tracking(**params):
         if country:
             url += "/country/{0}"
         if region:
-            url += "/region/{1}" 
+            url += "/region/{1}"
         if sub_region:
             url += "/sub_region/{2}"
 
         return url
 
-    
+
     # parameters to the GET request
     metadata = {"country":country,
                "region":region,
@@ -103,21 +102,21 @@ def api_covid19tracking(**params):
     payload = {"date_from":start_date.strftime(formato_query),
                "date_to":end_date.strftime(formato_query),
               }
-    headers= {'User-Agent': 'python-requests/2.24.0', 
-              'Accept-Encoding': 'gzip, deflate', 
-              'Accept': '*/*', 
+    headers= {'User-Agent': 'python-requests/2.24.0',
+              'Accept-Encoding': 'gzip, deflate',
+              'Accept': '*/*',
               'Connection': 'keep-alive',
              }
-   
+
     url = url_constructor(country, region, sub_region)
-    
+
     # GET request
-    response = requests.request("GET", url.format(country,region,sub_region), 
-                                params=payload, 
+    response = requests.request("GET", url.format(country,region,sub_region),
+                                params=payload,
                                 headers=headers)
     # some pre-PRINTS
     print("pre-url: {}".format(url))
-    print("url: %s"%url.format(country,region,sub_region), 
+    print("url: %s"%url.format(country,region,sub_region),
           "\nquery_url:%s"%response.url)
     print("status_code:%i"%response.status_code)
     return response.json()
