@@ -1,17 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-try:
-    get_ipython().run_line_magic('reload_ext', 'autoreload')
-except:
-    get_ipython().run_line_magic('load_ext', 'autoreload')
-get_ipython().run_line_magic('autoreload', '2')
-
 
 from params import params,today,cols
 from functions import *
-
-display(params)
-
 
 # ## COVID 19 - API
 # - Page: https://covid19tracking.narrativa.com/es/spain/api.html
