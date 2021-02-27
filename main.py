@@ -14,7 +14,7 @@ from functions import *
 
 # PRE-PROCESSING params:
 params["start_date"] = datetime.datetime(2020,12,24)
-params["end_date"] = datetime.datetime(2021,1,15)
+params["end_date"] = datetime.datetime(2021,2,25)
 
 # API call:
 json = api_covid19tracking(**params)
@@ -52,7 +52,7 @@ def bokeh_plots_by_lemma(lemma, df=df):
     # WIDGET pickup
     global dr_sl, sl
     global dr_sl_callback, sl_callback
-    dr_sl = DateRangeSlider(value=(date(2021,1,1),date(2021,1,20)),
+    dr_sl = DateRangeSlider(value=(date(2021,1,1),date(2021,2,24)),
                             start=date(2020, 4, 20), end=datetime.today()) #start_date, end_date
     dr_sl_callback = CustomJS(args=dict(source=source, data=df.reset_index().to_dict()),
                              code="""
@@ -120,13 +120,13 @@ def bokeh_plots_by_lemma(lemma, df=df):
     # SHOW
     plotall = True
     plotserve = True
-    
+
     if plotall:
         all_things_together = (dr_sl,sl,p)
     else:
         all_things_together = (p)
 
-    if plotserve:    
+    if plotserve:
         curdoc().add_root(column(*all_things_together)) # only the plot
     else:
         show(column(*all_things_together), **dict(browser=None, notebook_handle=False))
