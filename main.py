@@ -119,11 +119,17 @@ def bokeh_plots_by_lemma(lemma, df=df):
 
     # SHOW
     plotall = True
+    plotserve = True
+    
     if plotall:
         all_things_together = (dr_sl,sl,p)
-        show(column(*all_things_together), **dict(browser=None, notebook_handle=False))
     else:
-        show(p, **dict(browser=None, notebook_handle=False)) # only the plot
+        all_things_together = (p)
+
+    if plotserve:    
+        curdoc().add_root(column(*all_things_together)) # only the plot
+    else:
+        show(column(*all_things_together), **dict(browser=None, notebook_handle=False))
 
     gc.collect()
     return p
