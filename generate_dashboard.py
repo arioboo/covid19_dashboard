@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+<<<<<<< HEAD
 # In[268]:
+=======
+# In[3]:
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 try:
@@ -11,7 +15,11 @@ except:
 get_ipython().run_line_magic('autoreload', '2')
 
 
+<<<<<<< HEAD
 # In[269]:
+=======
+# In[4]:
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 from params import params,today,cols
@@ -27,7 +35,11 @@ display(params)
 # ### DataFrame hierarchical call: 
 # - df = pd.DataFrame(json["dates"][params["start_date"].strftime(formato)]["countries"]["Spain"])
 
+<<<<<<< HEAD
 # In[270]:
+=======
+# In[5]:
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 # PRE-PROCESSING params:
@@ -41,7 +53,11 @@ json = api_covid19tracking(**params)
 df = daterange2df(json=json, **params)
 
 
+<<<<<<< HEAD
 # In[271]:
+=======
+# In[6]:
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 # LEMMAS
@@ -54,7 +70,11 @@ L = {k:k for k in np.concatenate([prefixes, mid_terms, suffixes])}
 fig,axs = make_plots_by_lemma(L["today"], df=df)
 
 
+<<<<<<< HEAD
 # In[367]:
+=======
+# In[8]:
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 from bokeh.plotting import figure, output_file, gridplot
@@ -89,7 +109,11 @@ def bokeh_plots_by_lemma(lemma, df=df):
     
     # THEME, OUTPUT
     curdoc().theme = "night_sky"  # caliber, dark_minimal, light_minimal, night_sky, contrast
+<<<<<<< HEAD
     output_file("/tmp/output_bokeh.html", title="Output Bokeh")
+=======
+    output_file("./app/output_bokeh.html", title="Output Bokeh")
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
     # figure PARAMETERS
     bokeh_figure_params = dict(tools="pan,tap,box_zoom,reset,save", title="(lemma:)     {}".format(lemma.upper()), 
@@ -153,7 +177,11 @@ def bokeh_plots_by_lemma(lemma, df=df):
 p = bokeh_plots_by_lemma(lemma=L['yesterday'])
 
 
+<<<<<<< HEAD
 # In[359]:
+=======
+# In[ ]:
+>>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 
