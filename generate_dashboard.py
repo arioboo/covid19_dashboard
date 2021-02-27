@@ -1,25 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-<<<<<<< HEAD
-# In[268]:
-=======
-# In[3]:
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
-
-
 try:
     get_ipython().run_line_magic('reload_ext', 'autoreload')
 except:
     get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
-
-
-<<<<<<< HEAD
-# In[269]:
-=======
-# In[4]:
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 from params import params,today,cols
@@ -31,15 +16,9 @@ display(params)
 # ## COVID 19 - API
 # - Page: https://covid19tracking.narrativa.com/es/spain/api.html
 # - Docs: https://documenter.getpostman.com/view/10831675/SzYZ1eNY#intro
-# 
-# ### DataFrame hierarchical call: 
+#
+# ### DataFrame hierarchical call:
 # - df = pd.DataFrame(json["dates"][params["start_date"].strftime(formato)]["countries"]["Spain"])
-
-<<<<<<< HEAD
-# In[270]:
-=======
-# In[5]:
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 # PRE-PROCESSING params:
@@ -53,12 +32,6 @@ json = api_covid19tracking(**params)
 df = daterange2df(json=json, **params)
 
 
-<<<<<<< HEAD
-# In[271]:
-=======
-# In[6]:
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
-
 
 # LEMMAS
 prefixes = col_lemma(0)
@@ -68,13 +41,6 @@ print("prefixes:{}\n mid_terms:{}\nsuffixes:{}\n".format(prefixes,mid_terms,suff
 
 L = {k:k for k in np.concatenate([prefixes, mid_terms, suffixes])}
 fig,axs = make_plots_by_lemma(L["today"], df=df)
-
-
-<<<<<<< HEAD
-# In[367]:
-=======
-# In[8]:
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
 
 from bokeh.plotting import figure, output_file, gridplot
@@ -91,7 +57,7 @@ from datetime import date,datetime
 def bokeh_plots_by_lemma(lemma, df=df):
     source = ColumnDataSource(df[colsbylemma(lemma)])
     hover = HoverTool()
-    
+
     # WIDGET pickup
     global dr_sl, sl
     global dr_sl_callback, sl_callback
@@ -103,20 +69,17 @@ def bokeh_plots_by_lemma(lemma, df=df):
                              data.change.emit()
                              """)
     dr_sl.js_on_change("value",dr_sl_callback)
-                                   
+
     sl = Select(title="Option:", value=lemma, options=list(L.keys()))
     #sl.on_change("value",sl_callback)
-    
+
     # THEME, OUTPUT
     curdoc().theme = "night_sky"  # caliber, dark_minimal, light_minimal, night_sky, contrast
-<<<<<<< HEAD
     output_file("/tmp/output_bokeh.html", title="Output Bokeh")
-=======
     output_file("./app/output_bokeh.html", title="Output Bokeh")
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
 
     # figure PARAMETERS
-    bokeh_figure_params = dict(tools="pan,tap,box_zoom,reset,save", title="(lemma:)     {}".format(lemma.upper()), 
+    bokeh_figure_params = dict(tools="pan,tap,box_zoom,reset,save", title="(lemma:)     {}".format(lemma.upper()),
                                plot_height=650,plot_width=1300,
                                x_axis_type="datetime",
                                sizing_mode="scale_both",
@@ -124,9 +87,9 @@ def bokeh_plots_by_lemma(lemma, df=df):
     p = figure(output_backend="canvas", **bokeh_figure_params)
     p.xaxis.axis_label, p.yaxis.axis_label = ("Date", "Cases")
 
-    
 
-    
+
+
     # outer PARAMETERS
     selected_circle = Circle(fill_alpha=1,fill_color="red")
     nonselected_circle = Circle(fill_alpha=0.1, fill_color="blue",line_color="firebrick")
@@ -136,33 +99,33 @@ def bokeh_plots_by_lemma(lemma, df=df):
     # RUN!
     for field in colsbylemma(lemma):
         color_i = Category20_20[randint(0,19)]
-        bokeh_plotparams.update(dict(y=field, 
+        bokeh_plotparams.update(dict(y=field,
                                      muted_color=color_i))
         # line (renderer)
         rl = p.line(name="line",
                line_color=color_i, line_alpha=0.4, line_cap="round",
                **bokeh_plotparams)
         # circle (renderer)
-        rcirc = p.circle(name="circle", size=10, 
+        rcirc = p.circle(name="circle", size=10,
                          fill_color=color_i, fill_alpha=0.4,
                          **bokeh_plotparams)
         rcirc.selection_glyph = selected_circle
         rcirc.nonselection_glyph = nonselected_circle
         it_legend.append(LegendItem(label=field, renderers=[rl,rcirc]))
-    
+
     # LEGEND
     global leg
     leg_kwargs = {"background_fill_color":"#33ee11",
-                  "title":"Legend:", 
+                  "title":"Legend:",
                   "title_text_color":"#00aaff",
                   "title_text_font_size":"0.5cm",
-                  "title_text_font_style":"bold",                 
-                 "label_text_font":"Roboto", 
+                  "title_text_font_style":"bold",
+                 "label_text_font":"Roboto",
                   "click_policy" : "mute"}
     leg = Legend(items=it_legend, **leg_kwargs)
     p.add_layout(leg, place="right")
     p.legend.glyph_height, p.legend.glyph_width = (10, 10)
-    
+
     # SHOW
     plotall = True
     if plotall:
@@ -170,25 +133,11 @@ def bokeh_plots_by_lemma(lemma, df=df):
         show(column(*all_things_together), **dict(browser=None, notebook_handle=False))
     else:
         show(p, **dict(browser=None, notebook_handle=False)) # only the plot
-    
+
     gc.collect()
     return p
-    
+
 p = bokeh_plots_by_lemma(lemma=L['yesterday'])
-
-
-<<<<<<< HEAD
-# In[359]:
-=======
-# In[ ]:
->>>>>>> d5159a42eca1ef32f1c0f7c2f8a8376fd670725a
-
-
-
-
-
-# In[ ]:
-
 
 
 
