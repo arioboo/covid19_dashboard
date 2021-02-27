@@ -1,1 +1,1 @@
-web: gunicorn app.output_bokeh --log-file -
+web: gunicorn generate_dashboard --log-file -
